@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DSA - PCCST303 | KTU 2024</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <header class="bg-blue-700 text-white p-4 shadow">
+    <h1 class="text-2xl font-bold">Data Structures and Algorithms (PCCST303)</h1>
+    <p class="text-sm">KTU 2024 Scheme - Course Portal</p>
+  </header>
+
+  <main class="p-6">
+    <section class="bg-white p-4 rounded shadow mb-6">
+      <h2 class="text-xl font-semibold text-blue-700 mb-3">📘 Syllabus</h2>
+      <p>See module-wise content uploaded by your instructor below.</p>
+      <div id="materials" class="mt-4 space-y-4"></div>
+    </section>
+
+    <section class="bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-semibold text-blue-700 mb-3">💻 C Compiler</h2>
+      <iframe src="https://www.jdoodle.com/embed/v0/4YTq" width="100%" height="500" frameborder="0" class="rounded border"></iframe>
+    </section>
+  </main>
+
+  <footer class="text-center p-4 bg-gray-200 text-gray-700">
+    &copy; 2025 Sumesh M S | MITS Varikkoli
+  </footer>
+
+  <script type="module" src="./js/firebase-config.js"></script>
+  <script type="module">
+    import { db } from './js/firebase-config.js';
+    import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-lite.js';
+
+    const renderMaterials = async () => {
+      const querySnapshot = await getDocs(collection(db, "materials"));
+      const container = document.getElementById("materials");
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        const div = document.createElement("div");
+        div.innerHTML = `<div class='border p-3 rounded bg-gray-50'>
+          <h3 class='font-bold text-blue-600'>${data.module}</h3>
+          <p>${data.description}</p>
+          <a href='${data.link}' target='_blank' class='text-sm text-blue-500 underline'>View Material</a>
+        </div>`;
+        container.appendChild(div);
+      });
+    };
+    renderMaterials();
+  </script>
+</body>
+</html>
