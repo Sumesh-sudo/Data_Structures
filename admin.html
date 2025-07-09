@@ -12,11 +12,71 @@
   <form id="uploadForm" class="space-y-4 hidden">
     <input type="text" id="module" placeholder="Module Title" class="w-full p-2 border rounded"/>
     <textarea id="description" placeholder="Material Description" class="w-full p-2 border rounded"></textarea>
-    <input type="url" id="link" placeholder="Google Drive / YouTube / File Link" class="w-full p-2 border rounded"/>
+    <input type="url" id="link" placeholder="Optional: YouTube/Drive Link" class="w-full p-2 border rounded"/>
+    <label class="block">Optional: Upload PDF File</label>
+    <input type="file" id="file" accept=".pdf" class="w-full p-2 border rounded"/>
     <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Upload</button>
   </form>
 
-  <script type="module" src="./js/firebase-config.js"></script>
-  <script type="module" src="./js/admin.js"></script>
+  <!-- INLINE FIREBASE & ADMIN CODE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-lite.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBMEL8K4KkYAS5JKUQF2aOgCkqfWNhfdl0",
+      authDomain: "dscourse.firebaseapp.com",
+      projectId: "dscourse-7b3f4",
+      storageBucket: "dscourse.appspot.com",
+      messagingSenderId: "545330585102",
+      appId: "1:545330585102:web:f4c40778dc73cf8264665f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    const storage = getStorage(app);
+
+    window.login = async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        document.getElementById('uploadForm').classList.remove('hidden');
+      } catch (error) {
+        alert('Login failed: ' + error.message);
+        console.error(error);
+      }
+    };
+
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const module = document.getElementById('module').value;
+      const description = document.getElementById('description').value;
+      const link = document.getElementById('link').value;
+      const file = document.getElementById('file').files[0];
+
+      let fileUrl = link;
+
+      if (file) {
+        const storageRef = ref(storage, 'materials/' + file.name);
+        const snapshot = await uploadBytes(storageRef, file);
+        fileUrl = await getDownloadURL(snapshot.ref);
+      }
+
+      try {
+        await addDoc(collection(db, 'materials'), {
+          module,
+          description,
+          link: fileUrl
+        });
+        alert('Material uploaded successfully!');
+      } catch (error) {
+        alert('Upload failed');
+        console.error(error);
+      }
+    });
+  </script>
 </body>
 </html>
