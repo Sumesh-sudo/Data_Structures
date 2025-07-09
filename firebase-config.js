@@ -3,12 +3,12 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBMEL8K4KkYAS5JKUQF2aOgCkqfWNhfdl0",
+  authDomain: "DSCourse.firebaseapp.com",
+  projectId: "dscourse-7b3f4",
+  storageBucket: "DSCourse.appspot.com",
+  messagingSenderId: "545330585102",
+  appId: "1:545330585102:web:f4c40778dc73cf8264665f"
 };
 
 const app = initializeApp(firebaseConfig);
