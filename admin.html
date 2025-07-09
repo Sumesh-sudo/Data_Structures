@@ -25,14 +25,17 @@
     import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBMEL8K4KkYAS5JKUQF2aOgCkqfWNhfdl0",
-      authDomain: "dscourse.firebaseapp.com",
-      projectId: "dscourse-7b3f4",
-      storageBucket: "dscourse.appspot.com",
-      messagingSenderId: "545330585102",
-      appId: "1:545330585102:web:f4c40778dc73cf8264665f"
-    };
+    
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBMEL8K4KkYAS5JKUQF2aOgCkqfWNhfdl0",
+    authDomain: "dscourse-7b3f4.firebaseapp.com",
+    projectId: "dscourse-7b3f4",
+    storageBucket: "dscourse-7b3f4.firebasestorage.app",
+    messagingSenderId: "545330585102",
+    appId: "1:545330585102:web:f4c40778dc73cf8264665f",
+    measurementId: "G-FWRNT2Z4VX"
+  };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
